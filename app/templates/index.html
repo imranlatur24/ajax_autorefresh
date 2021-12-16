@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>Auto Refresh</title>
+<!--    <meta charset="UTF-8">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<h2>live data</h2>
+    <ul id="display_data">
+
+    </ul>
+
+<script>
+    $(document).ready(function(){
+        setInterval(function(){
+            $.ajax({
+                type:'GET',
+                url:"{% url 'student_data' %}",
+                success:function(response){
+<!--                    console.log(response);-->
+                    $('#display_data').empty();
+                    for (var key in response.students)
+                    {
+                        var temp="<li>"+response.students[key].name+"</li>";
+                        $("#display_data").append(temp);
+                    }
+                },
+                error:function(response){
+                    alert('an error occured');
+                }
+            });
+        },1000);
+    });
+</script>
+</body>
+
+</html>
